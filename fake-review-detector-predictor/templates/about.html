@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - REEvuee</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="banner">
+        <header>
+            <h1>About REEvuee</h1>
+            <p>Learn about our fake review detection system</p>
+            <nav>
+                <ul>
+                    <li><a href="/analyze">Analyze</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    {% if logged_in %}
+                    <li><a href="/logout">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+    </div>
+
+    <main class="container mt-4">
+        <!-- First Row: Mission, How It Works, Team -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h2>Our Mission</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>REEvuee aims to enhance trust in online reviews by identifying fake reviews using cutting-edge machine learning techniques.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-success text-white">
+                        <h2>How It Works</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Our system analyzes text patterns, linguistic features, and metadata to accurately classify reviews.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-info text-white">
+                        <h2>Our Team</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>We are data scientists and engineers passionate about trustworthy online platforms.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Row: Info Boxes -->
+        <h2 class="text-center my-5">Understanding Fake Reviews</h2>
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-warning text-white">
+                        <h2><i class="fas fa-exclamation-triangle me-2"></i>Types of Fake Reviews</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-circle me-2 small"></i>Positive fake reviews inflating quality</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Negative reviews from competitors</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Verified reviews with fake content</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Paid or incentivized reviews</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-danger text-white">
+                        <h2><i class="fas fa-user-shield me-2"></i>How They Mislead</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-circle me-2 small"></i>Over-inflated reputation</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Disguising product deficiencies</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Creating false sentiment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-success text-white">
+                        <h2><i class="fas fa-search me-2"></i>Detection Methods</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-circle me-2 small"></i>Look for generic phrases</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Check review timing patterns</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Verify purchase authenticity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-secondary text-white">
+                        <h2><i class="fas fa-balance-scale me-2"></i>Legal Concerns</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-circle me-2 small"></i>Violates consumer protection laws</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Potential legal consequences</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Damage to brand reputation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h2><i class="fas fa-industry me-2"></i>Affected Industries</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-circle me-2 small"></i>Consumer electronics</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Books & media</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Beauty & health products</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-info text-white">
+                        <h2><i class="fas fa-shield-alt me-2"></i>Prevention</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-circle me-2 small"></i>Strict platform policies</li>
+                            <li><i class="fas fa-circle me-2 small"></i>AI/ML detection systems</li>
+                            <li><i class="fas fa-circle me-2 small"></i>Verified buyer programs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="card mt-4 shadow">
+            <div class="card-header bg-dark text-white">
+                <h2>Technology Stack</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="tech-item text-center p-3">
+                            <i class="fab fa-python fa-3x mb-3 text-primary"></i>
+                            <h5>Python Flask</h5>
+                            <p>Backend framework</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="tech-item text-center p-3">
+                            <i class="fas fa-brain fa-3x mb-3 text-success"></i>
+                            <h5>Scikit-learn</h5>
+                            <p>Machine learning</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="tech-item text-center p-3">
+                            <i class="fas fa-language fa-3x mb-3 text-info"></i>
+                            <h5>NLTK</h5>
+                            <p>Natural language processing</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="tech-item text-center p-3">
+                            <i class="fas fa-chart-line fa-3x mb-3 text-warning"></i>
+                            <h5>VADER</h5>
+                            <p>Sentiment analysis</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-5">
+        <div class="container">
+            <p>Anvesh Hirve | Rohan Siddu Samudrala | Anushka Vairat</p>
+            <ul class="footer-links">
+                <li><a href="/contact">Contact us</a></li>
+                <li><a href="/about">About us</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REEvuee - Contact Us</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Popup Styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .popup-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .popup-overlay.active .popup-content {
+            transform: translateY(0);
+        }
+        
+        .popup-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        
+        .popup-icon.success {
+            color: #28a745;
+        }
+        
+        .popup-icon.error {
+            color: #dc3545;
+        }
+        
+        .popup-btn {
+            margin-top: 20px;
+            padding: 8px 20px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .popup-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Contact Form Styles */
+        .contact-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .contact-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .contact-header h2 {
+            color: var(--primary);
+        }
+        
+        .btn-send {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-send:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-control {
+            border-radius: 5px;
+            padding: 10px 15px;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(0, 180, 216, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <header>        
+            <h1>REEvuee</h1>
+            <p>Detect fake reviews with high accuracy and precision.</p>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('analyze') }}">Analyze</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('contact') }}" aria-current="page">Contact</a></li>
+                    {% if logged_in %}
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+    </div>
+
+    <main class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="contact-card">
+                    <div class="contact-header">
+                        <h2><i class="fas fa-envelope me-2"></i>Contact Us</h2>
+                        <p>Have questions or feedback? Send us a message!</p>
+                    </div>
+                    <form id="contactForm" class="contact-form" action="https://formspree.io/f/mzzrlgzq" method="POST">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" name="message" rows="5" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-send" id="sendButton">
+                            <i class="fas fa-paper-plane me-2"></i>Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Popup Overlay -->
+    <div class="popup-overlay" id="popupOverlay" aria-hidden="true">
+        <div class="popup-content" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+            <div class="popup-icon success">
+                <i class="fas fa-check-circle" aria-hidden="true"></i>
+            </div>
+            <h3 id="popupTitle">Message Sent!</h3>
+            <p id="popupMessage">Thank you for contacting us. We'll get back to you soon.</p>
+            <button class="popup-btn" id="closePopup" aria-label="Close notification">OK</button>
+        </div>
+    </div>
+    
+    <footer class="mt-5">
+        <div class="container">
+            <p>Anvesh Hirve | Rohan Siddu Samudrala | and Anushka Vairat</p>
+            <ul class="footer-links">
+                <li><a href="{{ url_for('contact') }}">Contact us</a></li>
+                <li><a href="{{ url_for('about') }}">About us</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactForm');
+            const sendButton = document.getElementById('sendButton');
+            const popupOverlay = document.getElementById('popupOverlay');
+            const popupTitle = document.getElementById('popupTitle');
+            const popupMessage = document.getElementById('popupMessage');
+            const popupIcon = document.querySelector('.popup-icon');
+            
+            // Form submission handler
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                sendButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+                sendButton.disabled = true;
+                
+                try {
+                    const formData = new FormData(this);
+                    const response = await fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        // Success case
+                        popupIcon.className = 'popup-icon success';
+                        popupIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                        popupTitle.textContent = 'Message Sent!';
+                        popupMessage.textContent = 'Thank you for contacting us. We\'ll get back to you soon.';
+                        
+                        // Reset form
+                        this.reset();
+                    } else {
+                        // Error case
+                        const data = await response.json();
+                        popupIcon.className = 'popup-icon error';
+                        popupIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+                        popupTitle.textContent = 'Error!';
+                        popupMessage.textContent = data.error || 'Failed to send message. Please try again.';
+                    }
+                    
+                    // Show popup
+                    popupOverlay.classList.add('active');
+                    popupOverlay.setAttribute('aria-hidden', 'false');
+                    
+                } catch (error) {
+                    // Network error case
+                    popupIcon.className = 'popup-icon error';
+                    popupIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+                    popupTitle.textContent = 'Error!';
+                    popupMessage.textContent = 'Network error. Please check your connection and try again.';
+                    popupOverlay.classList.add('active');
+                    popupOverlay.setAttribute('aria-hidden', 'false');
+                } finally {
+                    // Reset button state
+                    sendButton.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Send Message';
+                    sendButton.disabled = false;
+                }
+            });
+            
+            // Close popup handlers
+            document.getElementById('closePopup').addEventListener('click', function() {
+                popupOverlay.classList.remove('active');
+                popupOverlay.setAttribute('aria-hidden', 'true');
+            });
+            
+            popupOverlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    this.setAttribute('aria-hidden', 'true');
+                }
+            });
+            
+            // Close popup with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && popupOverlay.classList.contains('active')) {
+                    popupOverlay.classList.remove('active');
+                    popupOverlay.setAttribute('aria-hidden', 'true');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
